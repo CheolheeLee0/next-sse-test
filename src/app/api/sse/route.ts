@@ -12,16 +12,17 @@ export async function GET() {
       
       // 1초마다 메시지 전송
       const interval = setInterval(() => {
+        // First check if we should stop
+        if (counter >= 100) {  // Changed from > to >= to be more precise
+          clearInterval(interval);
+          controller.close();
+          return;  // Important: return early to prevent further execution
+        }
+
         const message = { time: new Date().toISOString(), count: counter++ };
         
         // SSE 형식으로 데이터 전송
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(message)}\n\n`));
-        
-        // 10번 메시지를 보내면 스트림 종료
-        if (counter > 100) {
-          clearInterval(interval);
-          controller.close();
-        }
       }, 1000);
     },
   });
