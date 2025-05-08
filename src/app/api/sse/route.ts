@@ -41,8 +41,8 @@ const companyInfo = {
     "10,000 Tons Carbon Reduction Achievement"
   ]
 };
-
 export async function GET() {
+
   const encoder = new TextEncoder();
 
   const customReadable = new ReadableStream({
